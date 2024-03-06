@@ -1,0 +1,25 @@
+name: CD
+
+on:
+  push:
+    branches:
+      - gh-pages
+
+jobs:
+  build:
+    name: react build & deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: .env setting
+        run: |
+          echo "REACT_APP_YOUTUBE_API_KEY=${{ secrets.REACT_APP_YOUTUBE_API_KEY }}" >> .env
+          echo "REACT_APP_YOUTUBE_CHANNEL_ID=${{ secrets.REACT_APP_YOUTUBE_CHANNEL_ID }}" >> .env
+          echo "REACT_APP_BLOGGER_API_KEY=${{ secrets.REACT_APP_BLOGGER_API_KEY }}" >> .env
+          echo "REACT_APP_BLOGGER_CHANNEL_ID=${{ secrets.REACT_APP_BLOGGER_CHANNEL_ID }}" >> .env
+          echo "REACT_APP_BLOGGER_NEWS_CHANNEL_ID=${{ secrets.REACT_APP_BLOGGER_NEWS_CHANNEL_ID }}" >> .env
+
+      - name: install npm dependencies
+        run: npm install
+
+      - name: react build
+        run: npm run build
